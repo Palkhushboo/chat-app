@@ -9,3 +9,18 @@ body{
   background-attachment:fixed;
 
 }
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#555;
+}
+::-webkit-scrollbar-thumb{
+  border-radius:5px;
+  background:#121212;
+}
+::-webkit-scrollbar-thumb:hover{
+  background:#242424;
+}
+
