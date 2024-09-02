@@ -4,8 +4,11 @@ import generateWebTokenAndCookie from "../utils/generateToken.js";
 
 export const signupUser=async(req,res)=>{
 try{
-  const{fullname,username,password,confirmedPassword,gender} =req.body;
-  if(password !== confirmedPassword){
+  const{fullName,username,password,confirmPassword,gender} =req.body;
+  if (!fullName) {
+    return res.status(400).json({ error: "Fullname is required!" });
+  }
+  if(password !== confirmPassword){
     return res.status(400).json({error:"password does not match!"})
   }
 
@@ -20,7 +23,7 @@ try{
   const boyProfilePic=`https://avatar.iran.liara.run/public/boy?username=${username}`
   const girlProfilePic=`https://avatar.iran.liara.run/public/girl?username=${username}`
   const newUser=new User({
-    fullname,
+    fullName,
     username,
     password:hashedPassword,
     gender,
@@ -32,12 +35,13 @@ try{
   await newUser.save();
   res.status(201).json({
     _id:newUser._id,
-    fullname:newUser.fullname,
+    fullName:newUser.fullName,
     username:newUser.username,
-    profilePic:newUser.profilePic
+    profilePic:newUser.profilePic,
   })}else{
     res.status(400).json({error:"Invalid userData"})
   }
+  console.log(fullName,username,password,confirmPassword,gender)
 }catch(error){
   console.log("error in signup controller",error.message)
  res.status(500).json({error:"internal server error"})

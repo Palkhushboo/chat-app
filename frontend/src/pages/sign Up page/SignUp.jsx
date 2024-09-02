@@ -1,7 +1,8 @@
-import React from 'react'
+
 import GenderCheckBox from './GenderCheckBox'
 import {Link} from 'react-router-dom'
 import  { useState } from 'react';
+import useSignUp from '../../hooks/useSignUp';
 
 function SignUp() {
   const [inputs,setInputs]=useState({
@@ -11,14 +12,27 @@ function SignUp() {
     confirmPassword:'',
     gender:'',
   })
+  const {loading,signup}=useSignUp()
 
   const handleCheckboxChange=(gender)=>{
     setInputs({...inputs,gender})
   }
 
-  const handleSubmit=(e)=>{
+  const handleSubmit=async(e)=>{
     e.preventDefault();
+    if (!inputs.fullname) {
+      console.error("Fullname is missing");
+      return;
+    }
+  
     console.log(inputs)
+    await signup({
+      fullName: inputs.fullname,
+      username: inputs.username,
+      password: inputs.password,
+      confirmPassword: inputs.confirmPassword,
+      gender: inputs.gender,
+    })
   }
   return (
     <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
@@ -27,7 +41,9 @@ function SignUp() {
 
       <form onSubmit={handleSubmit}>
         <div >
-        <label className='label'><span className='text-base label-text'>Full Name</span></label>
+        <label className='label'>
+          <span className='text-base label-text'>Full Name</span>
+          </label>
         <input
         type="text" 
         placeholder='John deo'
@@ -36,11 +52,22 @@ function SignUp() {
         onChange={(e)=>setInputs({...inputs,fullname:e.target.value})}/>
         </div>
 
+        <div >
+        <label className='label'><span className='text-base label-text'>Username</span></label>
+        <input
+        type="text" 
+        placeholder='Username'
+        className='w-full  input input-bordered h-10' 
+        value={inputs.username}
+        onChange={(e)=>setInputs({...inputs,username:e.target.value})}/>
+        </div>
+ 
         <div>
         <label className='label'>
           <span className='text-base label-text'>Password</span>
         </label>
-        <input type="password"
+        <input 
+        type="password"
          placeholder='Enter password'
          className='w-full  input input-bordered h-10'
          value={inputs.password} 
@@ -63,7 +90,8 @@ function SignUp() {
           Already have an account?
         </Link>
         <div>
-        <button className='btn btn-block btn-sm mt-2 '>SignUp</button>
+        <button className='btn btn-block btn-sm mt-2 'disabled={loading}> {loading ? 'Signing Up...' : 'Sign Up'}
+          </button>
        </div>
 
       </form>
