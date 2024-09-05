@@ -2,7 +2,7 @@ import React from 'react'
 import userConversation from '../../zustand/userConversation'
 
 function Conversation({conversations,lastIdx,emoji}) {
-  console.log(conversations,lastIdx,emoji)
+  //console.log(conversations,lastIdx,emoji)
   const {selectedConversation,setSelectedConversation}=userConversation();
   const isSelected=selectedConversation?._id ===conversations._id;
   return <>

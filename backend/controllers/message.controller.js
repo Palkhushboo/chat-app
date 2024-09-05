@@ -5,6 +5,7 @@ import Message from "../models/message.mongoose.js";
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
+    //console.log(`server wala`,message)
     console.log(req.params);
     console.log(req.user._id);
     
