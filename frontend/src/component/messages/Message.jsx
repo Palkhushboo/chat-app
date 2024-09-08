@@ -5,16 +5,17 @@ import { extractTime } from '../../utils/extractTime';
 
 function Message({message}) {
   const {authUser}=useAuthContext();
-  //console.log(authUser.profilePic)
+  //console.log("govinda",authUser.fullName)
   const {selectedConversation}=useConversation();
   //console.log(message.senderId)
   const fromMe=message.senderId === authUser._id;
-  console.log("debugg",selectedConversation.profilePic)
+  //console.log("debugg",selectedConversation.profilePic)
   const formattedTime=extractTime(message.createdAt)
   const chatClassName=fromMe? 'chat-end':'chat-start';
   const profilePic=fromMe?authUser.profilePic:selectedConversation.profilePic;
-  console.log(`profilePic33 ${profilePic}`)
-  const bubbleBgColor=fromMe?'bg-blue-500':"";
+  //console.log(`profilePic33 ${profilePic}`)
+  const bubbleBgColor=fromMe?'bg-blue-700':" ";
+  //console.log(`color`,bubbleBgColor)
 
 
   return (

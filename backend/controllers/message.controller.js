@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.mongoose.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -11,6 +12,10 @@ export const sendMessage = async (req, res) => {
     
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
+
+    if (!message || !receiverId) {
+      return res.status(400).json({ error: "Invalid data" });
+    }
 
     // Convert senderId and receiverId to ObjectId instances
     const senderObjectId = new mongoose.Types.ObjectId(senderId);
@@ -40,7 +45,14 @@ export const sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id);
     
     }
+
+
      await Promise.all([conversation.save(),newMessage.save()]);
+     const receiverSocketId=getReceiverSocketId(receiverId)
+     if(receiverSocketId){
+      //sent event to specific client
+      io.to(receiverSocketId).emit("newMessage",newMessage)
+     }
     res.status(201).json(newMessage);
   } catch (error) {
     console.log("Error in send message controller", error.message);

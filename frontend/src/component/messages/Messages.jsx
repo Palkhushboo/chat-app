@@ -2,11 +2,17 @@ import React, { useEffect ,useRef} from 'react'
 import Message from './Message'
 import useGetMessages from '../../hooks/useGetMessages'
 import MessageSkeleton from '../skeleton/MessageSkeleton'
+import useListenMessages from '../../hooks/useListenMessages'
+
 function Messages() {
-  const {messages,loading}= useGetMessages()
+  const {messages=[],loading}= useGetMessages()
+  //console.log("Type of messages:", typeof messages); // Check the type
+//console.log("Is messages an array?", Array.isArray(messages)); 
+  useListenMessages();
   const lastMessageRef=useRef()
 
   useEffect(()=>{
+    console.log('Messages State:', messages);
     if(lastMessageRef.current){
       setTimeout(()=>{
         lastMessageRef.current.scrollIntoView({behavior:"smooth"})
@@ -14,19 +20,21 @@ function Messages() {
     }
    
   },[messages])
-  console.log(`messages:${JSON.stringify(messages, null, 2)}`)
+  console.log(`messages mila:${JSON.stringify(messages, null, 2)}`)
   return (
+   
     <div className='px-4 flex-1 overflow-auto'> 
-     {!loading && 
+     {!loading && Array.isArray(messages) &&
      messages.length > 0 && 
-     messages.map((message)=>(
-     <div key={message._id}
-     ref={lastMessageRef}
+     messages.map((message,idx)=>(
+     <div 
+     key={message._id}
+     ref={idx === messages.length - 1 ? lastMessageRef : null} 
      >
       <Message message={message}/>
 
      </div>))}
-
+   
 
      {loading && [...Array(3)].map((_,idx)=><MessageSkeleton key={idx}/>)}
      
