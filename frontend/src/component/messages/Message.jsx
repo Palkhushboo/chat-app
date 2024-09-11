@@ -12,7 +12,7 @@ function Message({message}) {
   //console.log("debugg",selectedConversation.profilePic)
   const formattedTime=extractTime(message.createdAt)
   const chatClassName=fromMe? 'chat-end':'chat-start';
-  const profilePic=fromMe?authUser.profilePic:selectedConversation.profilePic;
+  const profilePic=fromMe?authUser.profilePic:selectedConversation?.profilePic;
   //console.log(`profilePic33 ${profilePic}`)
   const bubbleBgColor=fromMe?'bg-blue-700':" ";
   //console.log(`color`,bubbleBgColor)

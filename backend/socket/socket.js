@@ -7,22 +7,22 @@ const server=http.createServer(app)
 const io=new Server(server,{
  cors:{
   origin:["http://localhost:3000"],
-  methods:["GET","POST"]
+  methods:["GET","POST"],
  }
 });
 
 export const getReceiverSocketId=(receiverId)=>{
-  return userSocketMap[receiverId]
+  return userSocketMap[receiverId];
 }
-const userSocketMap={}
+const userSocketMap={};
 io.on('connection',(socket)=>{
  console.log("a user connected",socket.id)
 const userId=socket.handshake.query.userId;
 
-// if(userId!="undefined") userSocketMap[userId]=socket.id;
-if (userId) {
-  userSocketMap[userId] = socket.id;
-}
+if(userId!="undefined") userSocketMap[userId]=socket.id;
+// if (userId) {
+//   userSocketMap[userId] = socket.id;
+// }
 //io.emit( ) is used to send event to all connected client
 io.emit("getOnlineUsers",Object.keys(userSocketMap))
  

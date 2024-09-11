@@ -66,7 +66,7 @@ export const getMessage=async(req,res)=>{
     const senderId=req.user._id;
 
     const conversation=await Conversation.findOne({
-      participants:{$all:[senderId,userToChatId]}
+      participants:{$all:[senderId,userToChatId]},
     }).populate("messages");
 
     if(!conversation){

@@ -12,7 +12,7 @@ function Messages() {
   const lastMessageRef=useRef()
 
   useEffect(()=>{
-    console.log('Messages State:', messages);
+   console.log('Messages State:', messages);
     if(lastMessageRef.current){
       setTimeout(()=>{
         lastMessageRef.current.scrollIntoView({behavior:"smooth"})
@@ -20,11 +20,15 @@ function Messages() {
     }
    
   },[messages])
+ 
+
   console.log(`messages mila:${JSON.stringify(messages, null, 2)}`)
+
   return (
    
     <div className='px-4 flex-1 overflow-auto'> 
-     {!loading && Array.isArray(messages) &&
+     {!loading &&
+      Array.isArray(messages) &&
      messages.length > 0 && 
      messages.map((message,idx)=>(
      <div 
