@@ -15,7 +15,7 @@ export const SocketContextProvider=({children})=>{
  //console.log(authUser)
  useEffect(()=>{
   if(authUser){
-   const socket=io("http://localhost:5000",{
+   const socket=io( "https://chat-app-production-mppv.onrender.com",{
     query:{
      userId:authUser._id,
     },
